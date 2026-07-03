@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WHOOP OAuth Callback</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: -apple-system, Helvetica, Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }
+  code { background: #f2f2f2; padding: 2px 6px; border-radius: 4px; word-break: break-all; }
+  #code-box { font-size: 1.1rem; padding: 12px; background: #f2f2f2; border-radius: 8px; margin: 1rem 0; word-break: break-all; }
+  button { padding: 8px 16px; font-size: 1rem; cursor: pointer; }
+  #error { color: #b00020; }
+</style>
+</head>
+<body>
+  <h1>WHOOP Authorization</h1>
+  <div id="result"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
+    const result = document.getElementById('result');
+
+    if (error) {
+      result.innerHTML = `<p id="error">Authorization failed: <code>${error}</code></p>`;
+    } else if (code) {
+      result.innerHTML = `
+        <p>Authorization succeeded. Copy this code and paste it back into the script:</p>
+        <div id="code-box">${code}</div>
+        <button onclick="navigator.clipboard.writeText('${code}')">Copy to clipboard</button>
+      `;
+    } else {
+      result.innerHTML = `<p id="error">No authorization code found in the URL.</p>`;
+    }
+  </script>
+</body>
+</html>
